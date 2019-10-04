@@ -27,7 +27,26 @@ export default class DynamicForm extends React.Component {
             }
         );
       } else {
-        // Array of values (e.g. checkbox): TODO
+        // Array of values (e.g. checkbox)
+        console.log('type not single here');
+        let found = this.state[key]
+            ? this.state[key].find(d => d === e.target.value)
+            : false;
+
+        if (found) {
+          let data = this.state[key].filter(d => {
+            return d !== found;
+          });
+          this.setState({
+            [key]: data
+          });
+        } else {
+          console.log("found", key, this.state[key]);
+          let others = this.state[key] ? [...this.state[key]] : [];
+          this.setState({
+            [key]: [e.target.value, ...others]
+          });
+        }
       }
     };
   
