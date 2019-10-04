@@ -1,6 +1,7 @@
 import React from "react";
 import TextInput from './Input';
 import Radio from './Radio';
+import DateInput from './DateInput';
 
 export default class DynamicForm extends React.Component {
   state = {};
@@ -69,6 +70,21 @@ export default class DynamicForm extends React.Component {
     )
   };
 
+  renderDateInput = (type, name, value, validations, target) => {
+    return (
+        <DateInput
+            validations={validations}
+            className="form-input"
+            type={type}
+            name={name}
+            value={value}
+            onInputDateChange={(e) => {
+              this.onChange(e, target);
+            }}
+        />
+    );
+  };
+
 
   renderForm = () => {
     const model = this.props.model;
@@ -89,6 +105,9 @@ export default class DynamicForm extends React.Component {
           break;
         case 'radio':
           input = this.renderRadioBox(m, validations, value, type);
+          break;
+        case 'date':
+          input = this.renderDateInput(type, name, value, validations, target);
           break;
         default:
           input = this.renderInputText(type, name, value, validations);
