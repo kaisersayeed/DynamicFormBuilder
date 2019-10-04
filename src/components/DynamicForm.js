@@ -1,5 +1,6 @@
 import React from "react";
 import TextInput from './Input';
+import Radio from './Radio';
 
 export default class DynamicForm extends React.Component {
   state = {};
@@ -44,6 +45,31 @@ export default class DynamicForm extends React.Component {
     );
   };
 
+  renderRadioBox = (m, validations, value, type) => {
+    const radioInput = m.options.map((o, index) => {
+      let checked = o.value == value;
+      return (
+          <Radio
+              validations={validations}
+              type={type}
+              key={index}
+              labelKey={index}
+              label={o.label}
+              name={o.name}
+              checked={checked}
+              value={o.value}
+              onRadioButtonChange={(e) => {
+                this.onChange(e, o.name);
+              }}
+          />
+      );
+    });
+    return (
+        <div className="form-group-radio">{radioInput}</div>
+    )
+  };
+
+
   renderForm = () => {
     const model = this.props.model;
 
@@ -60,6 +86,9 @@ export default class DynamicForm extends React.Component {
       switch (type) {
         case 'text':
           input = this.renderInputText(type, name, value, validations, target);
+          break;
+        case 'radio':
+          input = this.renderRadioBox(m, validations, value, type);
           break;
         default:
           input = this.renderInputText(type, name, value, validations);
