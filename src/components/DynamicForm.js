@@ -8,6 +8,27 @@ export default class DynamicForm extends React.Component {
     super(props);
   }
 
+    onSubmit = e => {
+      e.preventDefault();
+      console.log('state on submit ', this.state);
+      if (this.props.onSubmit) this.props.onSubmit(this.state);
+    };
+
+    onChange = (e, key, type = "single") => {
+      if (type === "single") {
+        this.setState(
+            {
+              [key]: e.target.value
+            },
+            () => {
+            }
+        );
+      } else {
+        // Array of values (e.g. checkbox): TODO
+      }
+    };
+  
+
   renderInputText = (type, name, value, validations, target) => {
     return (
         <TextInput
@@ -65,6 +86,9 @@ export default class DynamicForm extends React.Component {
           <h3 className="form-title">{title}</h3>
           <form
               className="dynamic-form"
+              onSubmit={e => {
+                this.onSubmit(e);
+              }}
           >
             {this.renderForm()}
             <div className="form-actions">
