@@ -3,7 +3,6 @@ const formFields = [
     key: "name",
     label: "Name",
     type: "text",
-    validations: {required: true},
   },
   {
     key: "dob",
@@ -40,7 +39,6 @@ const formFields = [
         type: "text",
       },
     ],
-    validations: {required: true}
   },
   {
     key: "consent",
@@ -66,7 +64,6 @@ const formFields = [
         type: "text",
       },
     ],
-    validations: {required: true}
   }
 ];
 
