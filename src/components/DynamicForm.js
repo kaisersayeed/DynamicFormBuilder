@@ -1,6 +1,7 @@
 import React from "react";
 import TextInput from './Input';
 import Radio from './Radio';
+import Checkbox from './Checkbox';
 import DateInput from './DateInput';
 
 export default class DynamicForm extends React.Component {
@@ -85,6 +86,35 @@ export default class DynamicForm extends React.Component {
     );
   };
 
+  renderInputCheckBox = (m, value, type, validations) => {
+    const inputCheckBox = m.options.map((o, index) => {
+      let checked = false;
+      if (value && value.length > 0) {
+        checked = value.indexOf(o.value) > -1 ? true : false;
+      }
+      return (
+          <Checkbox
+              validations={validations}
+              type={type}
+              labelKey={index}
+              key={index}
+              name={o.name}
+              checked={checked}
+              value={o.value}
+              label={o.label}
+              onCheckboxChange={(e) => {
+                this.onChange(e, m.key, "multiple");
+              }}
+          />
+      );
+    });
+
+    return (
+        <div className="form-group-checkbox">{inputCheckBox}</div>
+    )
+  };
+
+
 
   renderForm = () => {
     const model = this.props.model;
@@ -105,6 +135,9 @@ export default class DynamicForm extends React.Component {
           break;
         case 'radio':
           input = this.renderRadioBox(m, validations, value, type);
+          break;
+        case 'checkbox':
+          input = this.renderInputCheckBox(m, value, type, validations);
           break;
         case 'date':
           input = this.renderDateInput(type, name, value, validations, target);
