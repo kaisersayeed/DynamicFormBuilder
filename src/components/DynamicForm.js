@@ -49,6 +49,30 @@ export default class DynamicForm extends React.Component {
         }
       }
     };
+
+    renderInputGroups = (m, key) => {
+      const inputGroups = m.groupOptions.map((o, index) => {
+        return (
+            <div key={index}>
+              <label className="form-label" key={"l" + o.key} htmlFor={o.key}>
+                {o.label}
+              </label>
+              <TextInput
+                  validations={o.validations}
+                  type={o.type}
+                  name={o.name}
+                  value={o.value}
+                  onInputTextChange={(e) => {
+                    this.onMultiInputTextChange(e);
+                  }}
+              />
+            </div>
+        )
+      });
+      return (
+          <div className="form-input">{inputGroups}</div>
+      )
+    };
   
 
   renderInputText = (type, name, value, validations, target) => {
@@ -160,6 +184,9 @@ export default class DynamicForm extends React.Component {
           break;
         case 'date':
           input = this.renderDateInput(type, name, value, validations, target);
+          break;
+        case 'inputGroups':
+          input = this.renderInputGroups(m, key);
           break;
         default:
           input = this.renderInputText(type, name, value, validations);
