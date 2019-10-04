@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TextInput = (props) => {
-  const {type, key, name, value, validations, onInputTextChange} = props;
+  const {type, name, value, validations, onInputTextChange} = props;
   return (
         <input
             {...validations}

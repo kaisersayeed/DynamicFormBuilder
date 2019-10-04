@@ -3,6 +3,7 @@ const formFields = [
     key: "name",
     label: "Name",
     type: "text",
+    validations: {required: true},
   },
   {
     key: "dob",
@@ -32,11 +33,13 @@ const formFields = [
         key: "home",
         label: "Home",
         type: "text",
+        validations: {required: true},
       },
       {
         key: "mobile",
         label: "Mobile",
-        type: "text",
+        type: "number",
+        validations: {required: true},
       },
     ],
   },
@@ -61,7 +64,7 @@ const formFields = [
       {
         key: "guardianContact",
         label: "Contact",
-        type: "text",
+        type: "number",
       },
     ],
   }

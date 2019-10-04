@@ -1,4 +1,5 @@
 import React from "react";
+import "../css/form-style.css";
 import TextInput from './Input';
 import Radio from './Radio';
 import Checkbox from './Checkbox';
@@ -15,6 +16,25 @@ export default class DynamicForm extends React.Component {
       e.preventDefault();
       console.log('state on submit ', this.state);
       if (this.props.onSubmit) this.props.onSubmit(this.state);
+    };
+
+    onMultiInputTextChange = (e, parentKey, childKey) => {
+      const build = this.state[parentKey] ? this.state[parentKey] : [];
+      let result = [];
+      if (build.length > 0) {
+        let filtered = build.filter((f) => f.type !== childKey);
+        result = [...filtered, {type: childKey, value: e.target.value}];
+      } else {
+        result.push({type: childKey, value: e.target.value});
+      }
+  
+      this.setState(
+          {
+            [parentKey]: result
+          },
+          () => {
+          }
+      );
     };
 
     onChange = (e, key, type = "single") => {
@@ -63,7 +83,7 @@ export default class DynamicForm extends React.Component {
                   name={o.name}
                   value={o.value}
                   onInputTextChange={(e) => {
-                    this.onMultiInputTextChange(e);
+                    this.onMultiInputTextChange(e, key, o.key);
                   }}
               />
             </div>
@@ -92,7 +112,7 @@ export default class DynamicForm extends React.Component {
 
   renderRadioBox = (m, validations, value, type) => {
     const radioInput = m.options.map((o, index) => {
-      let checked = o.value == value;
+      let checked = o.value === value;
       return (
           <Radio
               validations={validations}
